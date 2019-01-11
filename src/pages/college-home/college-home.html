@@ -1,0 +1,80 @@
+
+<ion-content class="transparent-header" text-center>
+  <div class="welcome-header">
+    <div class="personal-info">
+      <img src="assets/imgs/IIT_JAMMU_LOGO.png" alt="" />
+      <h1>{{Indian Institute of Technology Jammu}}<br /></h1>
+    </div>
+    
+  </div>
+   <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+  <ion-list class="pageh-background">
+    <ion-list-header class="pageh-background">
+      Courses
+    </ion-list-header>
+    <ion-item-sliding #slidingItem *ngFor="let course of courses; let i = index;" >
+    <ion-item (click)="showCourses(i)" #item class="pagel-background chat-item">
+      <ion-avatar item-start>
+        <img src="assets/imgs/avatar1.png">
+      </ion-avatar>
+      <!-- <button ion-button ion-long-press [interval]="400"  (onPressing)="active()" ></button> -->
+      <ion-icon item-end color="primary" name="arrow-dropright" (click)="openOption(slidingItem, item, $event)"></ion-icon> 
+      <h2>{{course.name}}</h2>
+      <p> {{course.code}}</p>
+    </ion-item>
+    <!-- <ion-item-options icon-start >
+      <button color="danger" ion-button expandable (click)="delete_supervisor(i)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item-options> -->
+    </ion-item-sliding>
+  </ion-list>
+
+  
+  <ion-list class="pageh-background">
+    <ion-list-header class="pageh-background">
+      Students
+    </ion-list-header>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-item-sliding #slidingItem *ngFor="let student of students; let i = index;">
+      <ion-item  (click)="showEmployee(i)" #item class="pagel-background">
+        <ion-avatar item-start>
+          <img src="assets/imgs/avatar.png">
+        </ion-avatar>
+        <ion-icon item-end color="primary" name="arrow-dropright" (click)="openOption(slidingItem, item, $event)"></ion-icon> 
+        <h2>{{user.name}}</h2>
+        <p> {{user.code}}</p>
+        </ion-item>
+        <!-- <ion-item-options icon-start >
+          <button color="danger" ion-button expandable (click)="delete_employee(i)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item-options> -->
+      
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab bottom right *ngIf="hide" (click)="togglePopupMenu()">
+      <button ion-fab class="pop-in" color="green" small><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <div class="popup-menu" *ngIf="!hide">
+      <div class="popup-menu-overlay" [ngClass]="{'in': openMenu}" (click)="togglePopupMenu()"></div>
+      <div class="popup-menu-toggle" (click)="togglePopupMenu()" [ngClass]="{'out': openMenu}">
+          
+      </div>
+      <div class="popup-menu-panel" [ngClass]="{'in': openMenu}">
+        <div class="popup-menu-item" (click)="addSupervisor()">
+          <ion-icon name="people"></ion-icon>
+          <span>Add Course</span>
+        </div>
+        <div class="popup-menu-item" (click)="addEmployee()">
+          <ion-icon name="person-add"></ion-icon>
+          <span>Add Student</span>
+        </div>
+      </div>
+    </div>
+  
+  <!-- <button (click)="showView()">Nav To Attendance View</button> -->
+</ion-content>
+
+
+
