@@ -3,7 +3,7 @@
   <div class="welcome-header">
     <div class="personal-info">
       <img src="assets/imgs/IIT_JAMMU_LOGO.png" alt="" />
-      <h1>{{Indian Institute of Technology Jammu}}<br /></h1>
+      <h1>Indian Institute of Technology Jammu<br /></h1>
     </div>
     
   </div>
@@ -13,14 +13,14 @@
       Courses
     </ion-list-header>
     <ion-item-sliding #slidingItem *ngFor="let course of courses; let i = index;" >
-    <ion-item (click)="showCourses(i)" #item class="pagel-background chat-item">
+    <ion-item (click)="showCourse(i)" #item class="pagel-background chat-item">
       <ion-avatar item-start>
         <img src="assets/imgs/avatar1.png">
       </ion-avatar>
       <!-- <button ion-button ion-long-press [interval]="400"  (onPressing)="active()" ></button> -->
       <ion-icon item-end color="primary" name="arrow-dropright" (click)="openOption(slidingItem, item, $event)"></ion-icon> 
       <h2>{{course.name}}</h2>
-      <p> {{course.code}}</p>
+      <p> {{course.facultyName}}</p>
     </ion-item>
     <!-- <ion-item-options icon-start >
       <button color="danger" ion-button expandable (click)="delete_supervisor(i)">
@@ -37,13 +37,13 @@
     </ion-list-header>
     <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <ion-item-sliding #slidingItem *ngFor="let student of students; let i = index;">
-      <ion-item  (click)="showEmployee(i)" #item class="pagel-background">
+      <ion-item  (click)="showStudent(i)" #item class="pagel-background">
         <ion-avatar item-start>
           <img src="assets/imgs/avatar.png">
         </ion-avatar>
         <ion-icon item-end color="primary" name="arrow-dropright" (click)="openOption(slidingItem, item, $event)"></ion-icon> 
-        <h2>{{user.name}}</h2>
-        <p> {{user.code}}</p>
+        <h2>{{student.name}}</h2>
+        <p> {{student.entryNumber}}</p>
         </ion-item>
         <!-- <ion-item-options icon-start >
           <button color="danger" ion-button expandable (click)="delete_employee(i)">
@@ -62,11 +62,11 @@
           
       </div>
       <div class="popup-menu-panel" [ngClass]="{'in': openMenu}">
-        <div class="popup-menu-item" (click)="addSupervisor()">
+        <div class="popup-menu-item" (click)="addCourse()">
           <ion-icon name="people"></ion-icon>
           <span>Add Course</span>
         </div>
-        <div class="popup-menu-item" (click)="addEmployee()">
+        <div class="popup-menu-item" (click)="addStudent()">
           <ion-icon name="person-add"></ion-icon>
           <span>Add Student</span>
         </div>

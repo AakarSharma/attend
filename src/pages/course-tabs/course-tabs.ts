@@ -2,20 +2,19 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 
-import { CollegeHomePage } from '../college-home/college-home';
+import { AttendanceMarkPage } from '../attendance-mark/attendance-mark';
 import { AttendanceChangePage } from '../attendance-change/attendance-change';
-
-
-
+import { FeedbackPage } from '../feedback/feedback';
 
 @IonicPage()
 @Component({
-  selector: 'page-college-tabs',
-  templateUrl: 'college-tabs.html',
+  selector: 'page-course-tabs',
+  templateUrl: 'course-tabs.html',
 })
-export class CollegeTabsPage {
-  tab1Root = CollegeHomePage;
+export class CourseTabsPage {
+  tab1Root = AttendanceMarkPage;
   tab2Root = AttendanceChangePage;
+  tab3Root = FeedbackPage;
   loaded: boolean = false;
   tabIndex: number = 0;
 

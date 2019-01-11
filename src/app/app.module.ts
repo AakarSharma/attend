@@ -17,8 +17,23 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { CollegeTabsPage } from '../pages/college-tabs/college-tabs';
 import { CollegeHomePage } from '../pages/college-home/college-home';
-import { AttendanceViewPage } from '../pages/attendance-view/attendance-view';
 import { FeedbackPage } from '../pages/feedback/feedback';
+import { AttendanceChangePage } from '../pages/attendance-change/attendance-change';
+import { AttendanceMarkPage } from '../pages/attendance-mark/attendance-mark';
+import { AttendanceViewPage } from '../pages/attendance-view/attendance-view';
+import { CourseTabsPage } from '../pages/course-tabs/course-tabs';
+import { StudentTabsPage } from '../pages/student-tabs/student-tabs';
+import { CreatePage } from '../pages/create/create';
+import { DetailsPage } from '../pages/details/details';
+import { EditPage } from '../pages/edit/edit';
+import { ProfilePage } from '../pages/profile/profile';
+
+
+
+
+
+
+
 
 
 
@@ -39,7 +54,16 @@ var firebaseAuth = {
     CollegeTabsPage,
     CollegeHomePage,
     FeedbackPage,
-    AttendanceViewPage
+    AttendanceViewPage,
+    AttendanceChangePage,
+    AttendanceMarkPage,
+    CourseTabsPage,
+    StudentTabsPage,
+    CreatePage,
+    DetailsPage,
+    EditPage,
+    ProfilePage
+
   ],
   imports: [
     BrowserModule,
@@ -58,7 +82,15 @@ var firebaseAuth = {
     CollegeTabsPage,
     CollegeHomePage,
     FeedbackPage,
-    AttendanceViewPage
+    AttendanceViewPage,
+    AttendanceChangePage,
+    AttendanceMarkPage,
+    CourseTabsPage,
+    StudentTabsPage,
+    CreatePage,
+    DetailsPage,
+    EditPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

@@ -1,18 +1,237 @@
-<!--
-  Generated template for the CreatePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>create</ion-title>
+  <ion-navbar color="primary">
+    <ion-title *ngIf="flag">
+      Add Student
+    </ion-title>
+    <ion-title *ngIf="!flag">
+      Add Course
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content background-color="#e1f6f7">
+  <main>
+    <form #myForm="ngForm" (ngSubmit)="postData()">
+      <div class="form-header" *ngIf="flag">
+        <h1 class="form-header__title">Student Info</h1>
+        <p class="form-header__progress">Add Details of Student</p>
+      </div>
+      <div class="form-header" *ngIf="!flag">
+        <h1 class="form-header__title">Course Info</h1>
+        <p class="form-header__progress">Add Details of Course</p>
+      </div>
+      
+      <fieldset class="mailing">
+        <!--       <legend class="mailing__title">Mailing Address</legend> -->
+        <div *ngIf="flag">
+          <label for="name">
+            Name
+            <input required id="name" name="name" autocomplete="name" autocorrect="off" type="text" #name="ngModel" [(ngModel)]="users.name" /> 
+          </label>
+          <span *ngIf="name.errors">
+            <span [hidden]="!name.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Name is required </small></ion-label>
+            </span>
+          </span>
+        </div>
+        
+        <div *ngIf="!flag">
+          <label for="name">
+            Area Name
+            <input required id="areaName" name="name" autocomplete="name" autocorrect="off" type="text" #name="ngModel" [(ngModel)]="users.name" /> 
+          </label>
+          <span *ngIf="name.errors">
+            <span [hidden]="!name.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Name is required </small></ion-label>
+            </span>
+          </span>
+          <label for="name">
+            Supervisor Name
+            <input required id="supervisorName" name="name" autocomplete="name" autocorrect="off" type="text" #name="ngModel" [(ngModel)]="users.supervisorName" /> 
+          </label>
+          <span *ngIf="name.errors">
+            <span [hidden]="!name.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Name is required </small></ion-label>
+            </span>
+          </span>
+        </div>
+        <label for="fname">
+          Father's Name
+          <input required id="fname" name="fname" autocomplete="fname" autocorrect="off" type="text" #fname="ngModel" [(ngModel)]="users.fname"/>
+        </label>
+        <span *ngIf="fname.errors">
+          <span [hidden]="!fname.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Father's Name is required </small></ion-label>
+          </span>
+        </span>
+        
+        <label for="email">
+          Email
+          <input required id="email" name="email" autocomplete="email" autocorrect="off" type="email" [(ngModel)]="users.email" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #email="ngModel"/>
+        </label>
+        <span *ngIf="email.errors">
+          <span [hidden]="!email.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Email is required </small></ion-label>
+          </span>
+          <span [hidden]="!email.errors.pattern">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small> Please enter a valid email </small></ion-label>
+          </span>
+        </span>
+        <label for="contact">
+          Mobile Number
+          <input required id="contact" [(ngModel)]="users.phone" name="contact" #contact="ngModel" autocomplete="contact" autocorrect="off" type="number" pattern="[0-9]{10,11}$" />
+        </label>
+        <span *ngIf="contact.errors">
+          <span [hidden]="!contact.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Contact is required </small></ion-label>
+          </span>
+          <span [hidden]="!contact.errors.pattern">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small> Please enter a valid contact </small></ion-label>
+          </span>
+        </span>
+        <label for="birthday">
+          Date of Birth
+          <input required id="dob" name="birthday" autocorrect="off" type="date"/>
+        </label>
+        <label for="address">
+          Address
+          <input required id="address" name="address" autocomplete="address" autocorrect="off" type="text" [(ngModel)]="users.address" #address="ngModel"/>
+        </label>
+        <span *ngIf="address.errors">
+          <span [hidden]="!address.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Address is required </small></ion-label>
+          </span>
+        </span>
+        <label for="designation">
+          Designation
+          <input required id="designation" name="designation" autocomplete="designation" autocorrect="off" type="text" [(ngModel)]="users.designation" #designation="ngModel"/>
+        </label>
+        <span *ngIf="designation.errors">
+          <span [hidden]="!designation.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Designation is required </small></ion-label>
+          </span>
+        </span>
+        <label for="qualification">
+          Qualification
+          <input required id="qualification" name="qualification" autocomplete="qualification" autocorrect="off" type="text" [(ngModel)]="users.qualification" #qualification="ngModel"/>
+        </label>
+        <span *ngIf="qualification.errors">
+          <span [hidden]="!qualification.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Qualification is required </small></ion-label>
+          </span>
+        </span>
+        <label for="swh">
+          Standard Working Hours
+          <input required id="swh" name="swh" autocomplete="swh" autocorrect="off" type="text" [(ngModel)]="users.swh" #swh="ngModel"/>
+        </label>
+        <span *ngIf="swh.errors">
+          <span [hidden]="!swh.errors.required">
+            <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Standard Working Hour is required </small></ion-label>
+          </span>
+        </span>
+        <label for="lon">
+          Longitude
+          <input id="lon" name="lon" autocomplete="lon" autocorrect="off" type="text" [(ngModel)]="users.lon" #lon="ngModel"/>
+        </label>
+        <ion-label style="color: green; margin-left: 1px; margin-top: -20px;"><small>* Longitude is optional </small></ion-label>
+        <label for="lat">
+          Latitude
+          <input id="lat" name="lat" autocomplete="lat" autocorrect="off" type="text" [(ngModel)]="users.lat" #lat="ngModel"/>
+        </label>
+        <ion-label style="color: green; margin-left: 1px; margin-top: -20px;"><small>* Latitude is optional </small></ion-label>
+        <label for="rad">
+          Radius
+          <input id="rad" name="rad" autocomplete="rad" autocorrect="off" type="text" [(ngModel)]="users.rad" #rad="ngModel"/>
+        </label>
+        <ion-label style="color: green; margin-left: 1px; margin-top: -20px;"><small>* Radius is optional </small></ion-label>
+        
+        <div *ngIf="flag">
+          <label for="aadhar">
+            Aadhar Number
+            <input required id="aadhar" name="aadhar" autocomplete="aadhar" autocorrect="off" type="number" [(ngModel)]="users.aadhar" #aadhar="ngModel"/>
+          </label>
+          <span *ngIf="aadhar.errors">
+            <span [hidden]="!aadhar.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Aadhar is required </small></ion-label>
+            </span>
+          </span>
+          <label for="pan">
+            Pan Number
+            <input required id="pan" name="pan" autocomplete="pan" autocorrect="off" type="text" [(ngModel)]="users.pan" #pan="ngModel"/>
+          </label>
+          <span *ngIf="pan.errors">
+            <span [hidden]="!pan.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* Pan is required </small></ion-label>
+            </span>
+          </span>
+          <label for="uan">
+            UAN
+            <input required id="uan" name="uan" autocomplete="uan" autocorrect="off" type="number" 
+            [(ngModel)]="users.uan" #uan="ngModel"/>
+          </label>
+          <span *ngIf="uan.errors">
+            <span [hidden]="!uan.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* UAN is required </small></ion-label>
+            </span>
+          </span>
+          <label for="esic">
+            ESIC
+            <input required id="esic" name="esic" autocomplete="esic" autocorrect="off" type="text" [(ngModel)]="esic.uan" #esic="ngModel"/>
+          </label>
+          <span *ngIf="esic.errors">
+            <span [hidden]="!esic.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* ESIC is required </small></ion-label>
+            </span>
+          </span>
+          <label for="epf">
+            EPF
+            <input required id="epf" name="epf" autocomplete="epf" autocorrect="off" type="number" [(ngModel)]="users.epf" #epf="ngModel"/>
+          </label>
+          <span *ngIf="epf.errors">
+            <span [hidden]="!epf.errors.required">
+              <ion-label style="color: red; margin-left: 1px; margin-top: -20px;"><small>* EPF is required </small></ion-label>
+            </span>
+          </span>
+          <label for="employeeCode">
+            Employee Code
+            <input id="employeeCode" name="employeeCode" autocomplete="employeeCode" autocorrect="off" type="text" [(ngModel)]="users.employeeCode" #employeeCode="ngModel"/>
+          </label>
+          <ion-label style="color: green; margin-left: 1px; margin-top: -20px;"><small>* Employee Code is optional </small></ion-label>
+        </div>
+        <!-- <label for="sno" *ngIf="flag">
+          Supervisor ID
+          <input required id="sno" name="sno" autocomplete="sno" autocorrect="off" type="text" />
+        </label> -->
+        <!-- <label for="sno" *ngIf="flag" class="item item-input item-select"> 
+          <div class="input-label">Supervisor ID</div>
+          <select class="size">
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+          </select>
+        </label> -->
+        <!-- <ion-item for="sno" *ngIf="flag">
+          <ion-label> Supervisor ID</ion-label>
+          <ion-select >
+            <ion-option *ngFor="let supr of supervisors">
+              <h2>{{supr.name}}</h2>
+              <p>{{supr.code}}</p>
+            </ion-option>
+          </ion-select>
+        </ion-item> -->
+        <ion-item *ngIf="flag" >
+          <ion-label>Supervisor ID</ion-label>
+          <ion-select [(ngModel)]="sno" [ngModelOptions]="{standalone: true}" interface="popover">
+            <ion-option *ngFor="let supr of supervisors" [value]="supr.code.substring(2,5)">
+              <h2>{{supr.name}}</h2>
+              <br>
+              <p>{{supr.code}}</p>
+            </ion-option>
+          </ion-select>
+        </ion-item>
+      </fieldset>
+      
+      <input [disabled]="!myForm.form.valid" name="submit" type="submit" value="Add"/>
+    </form>
+  </main>
 </ion-content>

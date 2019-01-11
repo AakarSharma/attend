@@ -6,7 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HeaderColor } from '@ionic-native/header-color';
 
 import { CollegeTabsPage } from '../college-tabs/college-tabs';
-
+import { CourseTabsPage } from '../course-tabs/course-tabs';
+import { StudentTabsPage } from '../student-tabs/student-tabs';
 
 @IonicPage()
 @Component({
@@ -170,12 +171,12 @@ export class LoginPage {
         if (this.username.value === "admin") {
           this.navCtrl.setRoot(CollegeTabsPage);
         }
-        // else if (this.username.value.length === 6) {
-        //   this.navCtrl.setRoot(WorkerTabsPage);
-        // }
-        // else if (this.username.value.length === 11) {
-        //   this.navCtrl.setRoot(CompanyTabsPage);
-        // }
+        else if (this.username.value.length === 6) {
+          this.navCtrl.setRoot(CourseTabsPage);
+        }
+        else if (this.username.value.length === 11) {
+          this.navCtrl.setRoot(StudentTabsPage);
+        }
       })
       .catch(error => {
         // console.log(error);
@@ -188,7 +189,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad LoginPage');
+    console.log('ionViewDidLoad Login[Page');
   }
 
 }

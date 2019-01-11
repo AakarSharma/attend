@@ -1,3 +1,226 @@
 page-create {
 
-}
+        form:focus-within {
+          box-shadow: 0px 0.2em 2.5em #c4c4c4;
+          transform: scale(1.025); 
+          background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+          // background-color: #bdf8f9;
+          // Remove the scaling for those who don't want animation.
+          @media screen and (prefers-reduced-motion: reduce) {
+            box-shadow: none;
+            transform: none; 
+          }
+        }
+    
+    
+        // Sass logic
+        $border: (
+          radius: 0.25em,
+          thickness: 1px
+        );
+    
+        $color: (
+          blue: #2491eb,
+          gray-light: #f8f8f8,
+          gray-medium: #e0e0e0,
+          gray-dark: #444444,
+          white: #ffffff
+        );
+    
+        $font: (
+          face-primary: "Open Sans",
+          weight-light: 300
+        );
+    
+        $transition: (
+          easing: ease-out,
+          speed-slow: 250ms,
+          speed-fast: 125ms
+        );
+    
+    
+        // Form styling
+        body {
+          background-color: map-get($color, gray-light);
+          color: map-get($color, gray-dark);
+          font-family: map-get($font, face-primary);
+          padding-bottom: 6em;
+        }
+    
+        main {
+          margin: 1.5em;
+          
+          // Media Queries
+          @media screen and (min-width: 35em) {
+            margin: 3em;
+          }
+        }
+    
+        form {
+          background-color: map-get($color, white);
+          border-top: map-get($border, thickness) solid map-get($color, blue);
+          border-right: map-get($border, thickness) solid map-get($color, gray-medium);
+          border-bottom: map-get($border, thickness) solid map-get($color, gray-medium);
+          border-left: map-get($border, thickness) solid map-get($color, gray-medium);
+          box-shadow: 0px 1px 1px #aaaaaa;
+          display: block;
+          max-width: 90vw;
+          margin: 0 auto;
+          padding: 3em 1.5em 0.5em 1.5em;
+          transition: 
+            map-get($transition, speed-slow) box-shadow map-get($transition, easing),
+            map-get($transition, speed-slow) transform map-get($transition, easing);
+          
+          // Media Queries
+          @media screen and (min-width: 35em) {
+            max-width: 70vw;
+            padding: 3em 2em 0.5em 2em;
+          }
+        }
+    
+        .form-header {
+          border-bottom: map-get($border, thickness) solid map-get($color, gray-medium);
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 2em;
+          padding-bottom: 0.75em;
+          width: 100%;
+          
+          // Media Queries
+          @media screen and (min-width: 26em) {
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-direction: row;
+          }
+          
+          &__title {
+            font-weight: map-get($font, weight-light);
+            margin: 0 0 0.5em 0;
+            padding: 0;
+            
+            // Media Queries
+            @media screen and (min-width: 26em) {
+              margin: 0;
+            }
+          }
+          
+          &__progress {
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            margin: 0;
+            padding: 0 0.25em 0.25em 0;
+            text-transform: uppercase;
+          }
+        }
+    
+        .mailing {
+          border: none;
+          margin-bottom: 2em;
+          padding: 0;
+          
+          &__title {
+            font-size: 1.25em;
+            font-weight: map-get($font, weight-light);
+            margin-bottom: 1.5em;
+            width: 100%;
+          }
+          
+          .optional {
+            font-variant: small-caps;
+            letter-spacing: 0.025em;
+            margin-left: 0.5em;
+          }
+        }
+    
+        label {
+          cursor: pointer;
+          display: block;
+          transition: map-get($transition, speed-fast) color map-get($transition, easing);
+          
+          &:focus-within {
+            color: map-get($color, blue);
+          }
+        }
+    
+        input[type="email"],
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea {
+          appearance: none;
+          border: map-get($border, thickness) solid map-get($color, gray-medium);
+          border-bottom-color: map-get($color, gray-dark);
+          border-radius: 0;
+          display: block;
+          line-height: 1;
+          margin-top: 0.5em;
+          margin-bottom: 1.5em;
+          padding: 0.85em 0.75em 0.75em 0.75em;
+          width: calc(100% - 1.25em);
+          transition: map-get($transition, speed-fast) border-color map-get($transition, easing);
+          
+          // States
+          &:hover {
+            border-color: map-get($color, gray-dark);
+          }
+    
+          &:focus {
+            border-color: map-get($color, blue);
+            outline: map-get($border, thickness) solid map-get($color, blue);
+          }
+    
+        }
+    
+        textarea {
+          line-height: 1.5;
+          margin-bottom: 0.5em;
+          min-height: 4em;
+          overflow: auto;
+          resize: vertical;
+        }
+    
+        input[type="submit"] {
+          background-color: map-get($color, blue);
+          border-radius: map-get($border, radius);
+          border: map-get($border, thickness) solid darken(map-get($color, blue), 10%);
+          color: map-get($color, white);
+          font-size: 1.1em;
+          letter-spacing: 0.025em;
+          margin-top: 0.25em;
+          margin-bottom: 2em;
+          padding: 1em;
+          transition: 
+            map-get($transition, speed-fast) background-color map-get($transition, easing),
+            map-get($transition, speed-fast) border-color map-get($transition, easing);
+          width: 100%;  
+          
+          // States
+          &:focus {
+            box-shadow:
+             0 0 0 3px map-get($color, white),
+             0 0 0 6px map-get($color, blue);
+            outline: none;
+          }
+    
+          &:hover {
+            background-color: darken(map-get($color, blue), 7%);
+            border-color: darken(map-get($color, blue), 14%);
+            text-decoration: underline;
+          }
+          
+          &:active {
+            background-color: darken(map-get($color, blue), 21%);
+            border-color: darken(map-get($color, blue), 28%);
+            position: relative;
+             top: 1px;
+            text-decoration: none;
+            transition: none;
+          }
+        }
+    
+        .size {
+            width: 250px;
+        }
+    
+    }
+    
