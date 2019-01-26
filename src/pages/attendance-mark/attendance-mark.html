@@ -1,18 +1,29 @@
-<!--
-  Generated template for the AttendanceMarkPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>attendanceMark</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
+  <ion-item>
+    <ion-label>
+      Today's Date {{RealDate}}
+    </ion-label>
+  </ion-item>
 
+  <ion-item id="from" color="primary">
+    <ion-label color="light">From</ion-label>
+    <ion-datetime displayFormat="HH:mm" [(ngModel)]="from"></ion-datetime>
+  </ion-item>
+
+  <ion-item id="to" color="primary">
+    <ion-label color="light">To</ion-label>
+    <ion-datetime displayFormat="HH:mm" [(ngModel)]="to"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <button ion-button round *ngIf="this.from!=undefined && this.to!=undefined" (click)="takePicture()">Take
+      Attedance</button>
+  </ion-item>
+  <!-- <ion-item>
+    <h4>Image Preview</h4>
+    <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+  </ion-item> -->
+  <ion-item>
+    <button ion-button (click)="uploadFile()">Upload</button>
+  </ion-item>
 </ion-content>

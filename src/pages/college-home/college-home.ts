@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Item, ItemSliding } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Item, ItemSliding, AlertController, App } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -7,6 +7,8 @@ import { HeaderColor } from '@ionic-native/header-color';
 
 import { CreatePage } from '../create/create';
 import { EditPage } from '../edit/edit';
+import { LoginPage } from '../login/login';
+
 
 @IonicPage()
 @Component({
@@ -26,7 +28,7 @@ export class CollegeHomePage {
 
   copyStudents = [];
 
-  constructor(private headerColor: HeaderColor, public http: HttpClient, private fireauth: AngularFireAuth,
+  constructor(private app: App, private alertCtrl: AlertController, private headerColor: HeaderColor, public http: HttpClient, private fireauth: AngularFireAuth,
     private firedata: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
     this.initializeItems();
     this.headerColor.tint('#2ecc71');
@@ -113,6 +115,38 @@ export class CollegeHomePage {
   //   };
   //   this.deleteUser(data);
   // }
+
+  logout() {
+    const auth = this.fireauth.auth;
+
+    if (auth.currentUser != null) {
+      let alert = this.alertCtrl.create({
+        title: 'Confirm Sign Out',
+        message: 'Do you want to sign Out?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+
+            }
+          },
+          {
+            text: 'Sign Out',
+            handler: () => {
+              auth.signOut().then(() => {
+                this.app.getRootNav().setRoot(LoginPage);
+                // Sign-out successful.
+              }, function (error) {
+                // An error happened.
+              });
+            }
+          }
+        ]
+      });
+      alert.present();
+    };
+  }
 
   openOption(itemSlide: ItemSliding, item: Item, event) {
     console.log('opening item slide..');

@@ -21,7 +21,7 @@ export class LoginPage {
 
   user: FormGroup;
 
-  public backgroundImage = 'assets/imgs/background-4.jpg';
+  // public backgroundImage = 'assets/imgs/background-4.jpg';
   constructor(private headerColor: HeaderColor, private firedata: AngularFireDatabase, private alertCtrl: AlertController, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
     this.headerColor.tint('#2ecc71');
   }

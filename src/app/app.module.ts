@@ -11,6 +11,9 @@ import { AngularFireStorageModule } from 'angularfire2/storage'; // importing st
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderColor } from '@ionic-native/header-color';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
 
 
 import { MyApp } from './app.component';
@@ -97,6 +100,9 @@ var firebaseAuth = {
     SplashScreen,
     HeaderColor,
     NativePageTransitions,
+    FileTransfer,
+    File,
+    Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
