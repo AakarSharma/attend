@@ -1,7 +1,7 @@
 <ion-content padding>
   <ion-item>
     <ion-label>
-      Today's Date {{RealDate}}
+      Today's Date {{this.RealDate}}
     </ion-label>
   </ion-item>
 
@@ -24,6 +24,12 @@
     <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
   </ion-item> -->
   <ion-item>
-    <button ion-button (click)="uploadFile()">Upload</button>
+    <button ion-button (click)="uploadFile()">Submit</button>
   </ion-item>
+  <ion-item>
+    <ion-label>
+      {{this.data}}
+    </ion-label>
+  </ion-item>
+
 </ion-content>

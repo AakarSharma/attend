@@ -8,8 +8,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { LoginPage } from '../pages/login/login';
 import { CollegeTabsPage } from '../pages/college-tabs/college-tabs';
-// import { CourseTabsPage } from '../pages/worker-tabs/worker-tabs';
-// import { StudentTabsPage } from '../pages/company-tabs/company-tabs';
+import { CourseTabsPage } from '../pages/course-tabs/course-tabs';
+import { StudentTabsPage } from '../pages/student-tabs/student-tabs';
 @Component({
   templateUrl: 'app.html'
 })
@@ -24,11 +24,11 @@ export class MyApp {
         if (id === "admin") {
           this.rootPage = CollegeTabsPage;
         }
-        // else if (id.length == 6) {
-        //   this.rootPage = CourseTabsPage;
-        // } else if (id.length == 11) {
-        //   this.rootPage = StudentTabsPage;
-        // }
+        else if (id.length == 6) {
+          this.rootPage = CourseTabsPage;
+        } else if (id.length == 11) {
+          this.rootPage = StudentTabsPage;
+        }
         authObserver.unsubscribe();
       } else {
         this.rootPage = LoginPage;

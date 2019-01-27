@@ -156,7 +156,7 @@ export class CreatePage {
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 30000,
+      duration: 2000,
       position: 'bottom'
     });
 

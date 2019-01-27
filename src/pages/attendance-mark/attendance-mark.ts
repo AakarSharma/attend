@@ -14,13 +14,21 @@ export class AttendanceMarkPage {
   from: Date = new Date();
   to: Date = new Date();
   RealDate: any;
+
+  data: any;
+
   imageURI: any;
   imageFileName: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private transfer: FileTransfer,
-    private camera: Camera, private fireauth: AngularFireAuth,
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private transfer: FileTransfer,
+    private camera: Camera,
+    private fireauth: AngularFireAuth,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController, public http: HttpClient) {
+    public toastCtrl: ToastController,
+    public http: HttpClient) {
+    this.getDates();
   }
 
   ionViewDidLoad() {
@@ -64,16 +72,17 @@ export class AttendanceMarkPage {
 
     let options: FileUploadOptions = {
       fileKey: 'test',
-      fileName: course,
+      fileName: course + ".jpg",
       chunkedMode: false,
       mimeType: "image/jpg",
       headers: {}
     }
 
-    fileTransfer.upload(this.imageURI, 'http://127.0.0.1:8000/predict', options)
+    fileTransfer.upload(this.imageURI, 'http://10.10.50.38:8000/predict', options)
       .then((data) => {
+        this.data = data;
         console.log(data + " Uploaded Successfully");
-        this.imageFileName = "http:/127.0.0.1:8000/static/images/" + course + ".jpg"
+        this.imageFileName = "http:/10.10.50.38:8000/database/tmp/" + course + ".jpg"
         loader.dismiss();
         this.presentToast("Image uploaded successfully");
       }, (err) => {
@@ -86,7 +95,7 @@ export class AttendanceMarkPage {
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 2000,
       position: 'bottom'
     });
 
@@ -104,9 +113,30 @@ export class AttendanceMarkPage {
     return new Promise(resolve => {
       this.http.get(url).subscribe(data => {
         var tt = data;//.currentDateTime;
-        this.RealDate = tt['currentDateTime'];
-        resolve(this.RealDate);
+        onlineTime = tt['currentDateTime'];
+        resolve(onlineTime);
       });
     });
+  }
+
+  async getDates() {
+    var time;
+    time = await this.assignTime();
+    var today = new Date(time);
+    var date, month, year, currDate;
+    month = today.getMonth() + 1;
+    year = today.getFullYear();
+
+    if (month > 9)
+      currDate = month + "_" + year;
+    else
+      currDate = "0" + month + "_" + year;
+
+    if (today.getDate() > 9)
+      date = "" + today.getDate();
+    else
+      date = "0" + today.getDate();
+
+    this.RealDate = date + "_" + currDate;
   }
 }
