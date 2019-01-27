@@ -1,9 +1,15 @@
+import { ShowAttendancePage } from './../show-attendance/show-attendance';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController, App, ActionSheetController } from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { LoginPage } from '../login/login';
+
 
 @IonicPage()
 @Component({
@@ -11,11 +17,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: 'attendance-mark.html',
 })
 export class AttendanceMarkPage {
-  from: Date = new Date();
-  to: Date = new Date();
+  from: any;
+  to: any;
   RealDate: any;
-
-  data: any;
 
   imageURI: any;
   imageFileName: any;
@@ -25,9 +29,13 @@ export class AttendanceMarkPage {
     private transfer: FileTransfer,
     private camera: Camera,
     private fireauth: AngularFireAuth,
+    private firedata: AngularFireDatabase,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public http: HttpClient) {
+    public http: HttpClient,
+    private app: App,
+    private alertCtrl: AlertController,
+    public actionSheetCtrl: ActionSheetController) {
     this.getDates();
   }
 
@@ -45,11 +53,11 @@ export class AttendanceMarkPage {
     return [hours, minutes].join(':');
   }
 
-  takePicture() {
+  takePicture(lol) {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+      sourceType: lol
     }
 
     this.camera.getPicture(options).then((imageData) => {
@@ -60,9 +68,48 @@ export class AttendanceMarkPage {
     });
   }
 
+  // refresh(){
+  //   let ele = document.getElementById("present-list");
+  //   ele.innerHTML +=  `
+  //       <ion-item #item class="pagel-background">
+  //         <ion-avatar item-start>
+  //           <img src="assets/imgs/avatar.png">
+  //         </ion-avatar>
+  //         <h2>hello world</h2>
+  //     </ion-item>`;
+  // }
+
+  presentOptions() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Load from Library',
+          handler: () => {
+            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        },
+        {
+          text: 'Use Camera',
+          handler: () => {
+            this.takePicture(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+
   uploadFile() {
     const auth = this.fireauth.auth;
-    var course = auth.currentUser.email.split("@")[0];
+    const database = this.firedata.database;
+
+    var course = auth.currentUser.email.split("@")[0].toUpperCase();
 
     let loader = this.loadingCtrl.create({
       content: "Uploading..."
@@ -78,18 +125,71 @@ export class AttendanceMarkPage {
       headers: {}
     }
 
-    fileTransfer.upload(this.imageURI, 'http://10.10.50.38:8000/predict', options)
+    fileTransfer.upload(this.imageURI, 'http://10.10.50.137:8000/predict', options)
       .then((data) => {
-        this.data = data;
-        console.log(data + " Uploaded Successfully");
-        this.imageFileName = "http:/10.10.50.38:8000/database/tmp/" + course + ".jpg"
+
+        // this.imageFileName = "http:/10.10.50.38:8000/database/tmp/" + course + ".jpg"
         loader.dismiss();
         this.presentToast("Image uploaded successfully");
+        var presents = data["present"];
+        var absents = data["absent"];
+        var date = this.RealDate.split("_");
+        var tfrom = this.from.split(":");
+        var tto = this.to.split(":");
+
+        var timestamp = date[2] + date[1] + date[0] + tfrom[0] + tfrom[1] + tto[0] + tto[1];
+        presents.forEach(element => {
+          var temp = {};
+          temp[timestamp] = "1";
+          database.ref("/students/" + element + "/attendance/" + course).set(temp);
+        });
+        absents.forEach(element => {
+          var temp = {};
+          temp[timestamp] = "0";
+          database.ref("/students/" + element + "/attendance/" + course).set(temp);
+        });
+        this.navCtrl.push(ShowAttendancePage, { "presents": presents, "absents": absents });
       }, (err) => {
         console.log(err);
         loader.dismiss();
         this.presentToast(err);
       });
+  }
+
+  uploadFile2() {
+    var url = 'http://10.10.50.137:8000/demo';
+    const auth = this.fireauth.auth;
+    const database = this.firedata.database;
+
+    var course = auth.currentUser.email.split("@")[0].toUpperCase();
+
+    var httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    const body = JSON.stringify({});
+    var data2 = this.http.post(url, body, httpOptions);
+    data2.subscribe(data => {
+      console.log(data);
+      var presents = data["present"];
+      var absents = data["absent"];
+      var date = this.RealDate.split("_");
+      var tfrom = this.from.split(":");
+      var tto = this.to.split(":");
+
+      var timestamp = date[2] + date[1] + date[0] + tfrom[0] + tfrom[1] + tto[0] + tto[1];
+      presents.forEach(element => {
+        var temp = {};
+        temp[timestamp] = "1";
+        database.ref("/students/" + element + "/attendance/" + course).set(temp);
+      });
+      absents.forEach(element => {
+        var temp = {};
+        temp[timestamp] = "0";
+        database.ref("/students/" + element + "/attendance/" + course).set(temp);
+      });
+      this.navCtrl.push(ShowAttendancePage, { "presents": presents, "absents": absents });
+    });
+
   }
 
   presentToast(msg) {
@@ -117,6 +217,37 @@ export class AttendanceMarkPage {
         resolve(onlineTime);
       });
     });
+  }
+  logout() {
+    const auth = this.fireauth.auth;
+
+    if (auth.currentUser != null) {
+      let alert = this.alertCtrl.create({
+        title: 'Confirm Sign Out',
+        message: 'Do you want to sign Out?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+
+            }
+          },
+          {
+            text: 'Sign Out',
+            handler: () => {
+              auth.signOut().then(() => {
+                this.app.getRootNav().setRoot(LoginPage);
+                // Sign-out successful.
+              }, function (error) {
+                // An error happened.
+              });
+            }
+          }
+        ]
+      });
+      alert.present();
+    };
   }
 
   async getDates() {

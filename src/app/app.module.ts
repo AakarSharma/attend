@@ -30,6 +30,8 @@ import { CreatePage } from '../pages/create/create';
 import { DetailsPage } from '../pages/details/details';
 import { EditPage } from '../pages/edit/edit';
 import { ProfilePage } from '../pages/profile/profile';
+import { ShowAttendancePage } from '../pages/show-attendance/show-attendance';
+
 
 
 
@@ -65,8 +67,8 @@ var firebaseAuth = {
     CreatePage,
     DetailsPage,
     EditPage,
-    ProfilePage
-
+    ProfilePage,
+    ShowAttendancePage
   ],
   imports: [
     BrowserModule,
@@ -93,7 +95,8 @@ var firebaseAuth = {
     CreatePage,
     DetailsPage,
     EditPage,
-    ProfilePage
+    ProfilePage,
+    ShowAttendancePage
   ],
   providers: [
     StatusBar,

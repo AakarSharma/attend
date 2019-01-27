@@ -116,7 +116,7 @@
 
           <ion-item>
             <!-- <p>{{imageURI}}</p> -->
-            <button ion-button color="secondary" (click)="getImage()">Upload Image</button>
+            <button ion-button color="secondary" (click)="presentOptions()">Upload Image</button>
           </ion-item>
           <!-- <ion-item>
             <h4>Image Preview</h4>
@@ -260,7 +260,7 @@
           </ion-list>
         </div>
       </fieldset>
-      <button ion-button (click)="postData()">Submit</button>
+      <button [disabled]="!myForm.form.valid" name="submit" type="submit" value="Add" ion-button (click)="postData()">Submit</button>
 
 
       <!-- <input [disabled]="!myForm.form.valid" name="submit" type="submit" value="Add" /> -->

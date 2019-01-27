@@ -16,20 +16,13 @@
   </ion-item>
 
   <ion-item>
-    <button ion-button round *ngIf="this.from!=undefined && this.to!=undefined" (click)="takePicture()">Take
+    <button ion-button round *ngIf="this.from!=undefined && this.to!=undefined" (click)="presentOptions()">Take
       Attedance</button>
   </ion-item>
-  <!-- <ion-item>
-    <h4>Image Preview</h4>
-    <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
-  </ion-item> -->
   <ion-item>
     <button ion-button (click)="uploadFile()">Submit</button>
   </ion-item>
-  <ion-item>
-    <ion-label>
-      {{this.data}}
-    </ion-label>
-  </ion-item>
-
+  <div text-center>
+    <button ion-button round (click)="logout()" color="danger">Sign Out</button>
+  </div>
 </ion-content>

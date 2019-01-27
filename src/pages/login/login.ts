@@ -21,7 +21,7 @@ export class LoginPage {
 
   user: FormGroup;
 
-  // public backgroundImage = 'assets/imgs/background-4.jpg';
+  public backgroundImage = 'assets/imgs/background-2.jpg';
   constructor(private headerColor: HeaderColor, private firedata: AngularFireDatabase, private alertCtrl: AlertController, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
     this.headerColor.tint('#2ecc71');
   }
@@ -37,7 +37,7 @@ export class LoginPage {
   presentPrompt() {
     let alert = this.alertCtrl.create({
       title: 'Forgot Password',
-      message: 'Contact your Company to reset your password',
+      message: 'Contact your College to reset your password',
       inputs: [
         // {
         //   name: 'username',

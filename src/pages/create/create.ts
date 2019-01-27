@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Item, ItemSliding } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Item, ItemSliding, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -49,7 +49,8 @@ export class CreatePage {
     private fireauth: AngularFireAuth,
     private firedata: AngularFireDatabase,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public actionSheetCtrl: ActionSheetController) {
     let type = this.navParams.get("type");
     if (type == "student") {
       this.flag = true;
@@ -106,12 +107,36 @@ export class CreatePage {
       this.activeItemSliding = null;
     }
   }
+  presentOptions() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Load from Library',
+          handler: () => {
+            this.getImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        },
+        {
+          text: 'Use Camera',
+          handler: () => {
+            this.getImage(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
 
-  getImage() {
+  getImage(lol) {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+      sourceType: lol
     }
 
     this.camera.getPicture(options).then((imageData) => {
@@ -140,7 +165,7 @@ export class CreatePage {
       headers: {}
     }
 
-    fileTransfer.upload(this.imageURI, 'http://10.10.50.38:8000/upload_photo', options)
+    fileTransfer.upload(this.imageURI, 'http://10.10.50.137:8000/upload_photo', options)
       .then((data) => {
         console.log(data + " Uploaded Successfully");
         this.imageFileName = "http://10.10.50.38/database/students/" + entryNo1 + ".jpg"
@@ -170,7 +195,7 @@ export class CreatePage {
 
 
   createUser(user) {
-    var url = 'http://10.10.50.38:8000/createUser';
+    var url = 'http://10.10.50.137:8000/createUser';
     var httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -182,7 +207,7 @@ export class CreatePage {
   }
 
   regCourse(data) {
-    var url = 'http://10.10.50.38:8000/courses';
+    var url = 'http://10.10.50.137:8000/courses';
     var httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -280,7 +305,7 @@ export class CreatePage {
       this.reg_students.forEach((student, index) => {
         temp_reg_students[student.entryNumber] = student.entryNumber;
         temp_course["data"]["students"].push(student.entryNumber);
-        database.ref("/students" + student.entryNumber + "courseRegistered" + temp1.courseName).set(temp1.courseName);
+        database.ref("/students/" + student.entryNumber + "/courseRegistered/" + courseNo1).set(courseNo1);
       })
       temp1.regStudents = temp_reg_students;
       database.ref("/courses/" + courseNo1).set(temp1).then(() => {
