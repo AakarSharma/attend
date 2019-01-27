@@ -130,25 +130,26 @@ export class AttendanceMarkPage {
 
         // this.imageFileName = "http:/10.10.50.38:8000/database/tmp/" + course + ".jpg"
         loader.dismiss();
-        this.presentToast("Image uploaded successfully");
-        var presents = data["present"];
-        var absents = data["absent"];
-        var date = this.RealDate.split("_");
-        var tfrom = this.from.split(":");
-        var tto = this.to.split(":");
+        this.uploadFile2();
+        // this.presentToast("Image uploaded successfully");
+        // var presents = data["present"];
+        // var absents = data["absent"];
+        // var date = this.RealDate.split("_");
+        // var tfrom = this.from.split(":");
+        // var tto = this.to.split(":");
 
-        var timestamp = date[2] + date[1] + date[0] + tfrom[0] + tfrom[1] + tto[0] + tto[1];
-        presents.forEach(element => {
-          var temp = {};
-          temp[timestamp] = "1";
-          database.ref("/students/" + element + "/attendance/" + course).set(temp);
-        });
-        absents.forEach(element => {
-          var temp = {};
-          temp[timestamp] = "0";
-          database.ref("/students/" + element + "/attendance/" + course).set(temp);
-        });
-        this.navCtrl.push(ShowAttendancePage, { "presents": presents, "absents": absents });
+        // var timestamp = date[2] + date[1] + date[0] + tfrom[0] + tfrom[1] + tto[0] + tto[1];
+        // presents.forEach(element => {
+        //   var temp = {};
+        //   temp[timestamp] = "1";
+        //   database.ref("/students/" + element + "/attendance/" + course).set(temp);
+        // });
+        // absents.forEach(element => {
+        //   var temp = {};
+        //   temp[timestamp] = "0";
+        //   database.ref("/students/" + element + "/attendance/" + course).set(temp);
+        // });
+        // this.navCtrl.push(ShowAttendancePage, { "presents": presents, "absents": absents });
       }, (err) => {
         console.log(err);
         loader.dismiss();
